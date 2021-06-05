@@ -4,7 +4,7 @@
 
 namespace Twia
 {
-    enum class Priority
+    enum class PRIORITY
     {
         PRIO_1 = 1,
         PRIO_2 = 2,
@@ -18,7 +18,7 @@ namespace Twia
         PRIO_10 = 10
     };
 
-    enum class Month : uint8_t
+    enum class MONTH : uint8_t
     {
         JANUARY = 1,
         FEBRUARY = 2,
@@ -36,6 +36,22 @@ namespace Twia
 
     struct Time
     {
+        static Time FromDateTime(const Poco::DateTime& dt)
+        {
+            Time t;
+            t.year = dt.year();
+            t.month = dt.month();
+            t.day = dt.day();
+            t.hour = dt.hour();
+            t.minute = dt.minute();
+            return t;
+        }
+        std::string ToString()
+        {
+            std::stringstream ss;
+            ss << (int)hour << ":" << int(minute) << " " << (int)day << "/" << (int)month << "/" << (int)year;
+            return ss.str();
+        }
         bool IsValid()
         {
             bool valid = true;
@@ -68,8 +84,36 @@ namespace Twia
 
     struct Duration
     {
-        uint16_t hours; //xx 1-23
-        uint8_t minutes; //xx 1-59
+        Duration() = default;
+        Duration(uint16_t pHours, uint8_t pMinutes)
+        {
+            hours = pHours;
+            minutes = pMinutes;
+        }
+        static Duration FromTimespan(const Poco::Timespan& pTimeSpan)
+        {
+            Duration d;
+            d.hours = pTimeSpan.hours();
+            d.minutes = pTimeSpan.minutes();
+            return d;
+        }
+        bool IsValid()
+        {
+            if (IsInRange(minutes, 0, 59) == false)
+            {
+                return false;
+            }
+            return true;
+        }
+        std::string ToString()
+        {
+            std::stringstream ss;
+            ss << int(hours) << "h " << int(minutes) << "m";
+            return ss.str();
+        }
+        
+        uint16_t hours; //
+        uint8_t minutes; //0-59
     };
 
     class Task
@@ -78,18 +122,50 @@ namespace Twia
     public:
 
         Task() = default;
-        Task(Priority pPrio, const std::string& pDesc, Time& startTime, Duration duration);
+        Task(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, Time startTime, Duration duration);
         ~Task() = default;
 
-        Status Initialize(Priority pPrio, const std::string& pDesc, Time& startTime, Duration duration);
+        Status Initialize(PRIORITY pPrio, const std::string& pName,  const std::string& pDesc, Time startTime, Duration duration);
+        
+        bool HasStarted();
+
+        std::string Name();
+        std::string Description();
+        PRIORITY Priority();
+        Time StartTime();
+        Duration Duration_();
 
     private:
 
         bool isInitialized;
 
+        std::string name;
         std::string description;
-        Priority priority;
+        PRIORITY priority;
         Poco::DateTime startTime;
-        Poco::Timespan duration;
+        Duration duration;
     };
+    inline std::string Task::Name()
+    {
+        return name;
+    }
+    inline std::string Task::Description()
+    {
+        return description;
+    }
+    inline PRIORITY Task::Priority()
+    {
+        return priority;
+    }
+    inline Time Task::StartTime()
+    {
+        return Time::FromDateTime(startTime);
+    }
+    inline Duration Task::Duration_()
+    {
+        return duration;
+    }
+
+
 }
+

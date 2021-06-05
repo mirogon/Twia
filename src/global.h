@@ -2,7 +2,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
+#include <cstdlib>
+#include <sstream>
 
 namespace Twia
 {
@@ -16,7 +17,7 @@ namespace Twia
     
     struct Status
     {
-        static Status OK(const std::string& desc)
+        static Status OK(const std::string& desc ="")
         {
             static Status s;
             s.status = STATUS::OK;
@@ -24,7 +25,7 @@ namespace Twia
             return s;
         }
 
-        static Status FAILURE(const std::string& desc)
+        static Status FAILURE(const std::string& desc ="")
         {
             static Status s;
             s.status = STATUS::FAILURE;
@@ -53,7 +54,7 @@ namespace Twia
         std::string description;
 
     private:
-        Status();
+        Status() = default;
         STATUS status;
     };
     

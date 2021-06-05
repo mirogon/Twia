@@ -1,4 +1,4 @@
-#include "Task.h"
+#include "TaskManager.h"
 
 
 using namespace Twia;
@@ -12,9 +12,16 @@ using namespace Twia;
 */
 
 int main()
-{
+{   
+    Poco::Timestamp now;
+    Duration d(2, 50);
+    Task test1;
+    test1.Initialize(PRIORITY::PRIO_10, "Wash Bowl", "Wash bowl until it is clean!", Time::FromDateTime(Poco::DateTime(now)), d);
 
+    TaskManager tm;
+    tm.AddTask(test1);
+    tm.PrintTasks();
 
-
+    system("pause");
     return 0;
 }
