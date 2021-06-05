@@ -132,8 +132,8 @@ namespace Twia
         std::string Name();
         std::string Description();
         PRIORITY Priority();
-        Time StartTime();
-        Duration Duration_();
+        Poco::DateTime StartTime();
+        Poco::Timespan Duration_();
 
     private:
 
@@ -143,7 +143,7 @@ namespace Twia
         std::string description;
         PRIORITY priority;
         Poco::DateTime startTime;
-        Duration duration;
+        Poco::Timespan duration;
     };
     inline std::string Task::Name()
     {
@@ -157,11 +157,11 @@ namespace Twia
     {
         return priority;
     }
-    inline Time Task::StartTime()
+    inline Poco::DateTime Task::StartTime()
     {
-        return Time::FromDateTime(startTime);
+        return startTime;
     }
-    inline Duration Task::Duration_()
+    inline Poco::Timespan Task::Duration_()
     {
         return duration;
     }
