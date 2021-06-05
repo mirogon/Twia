@@ -5,9 +5,14 @@
 #include <cstdlib>
 #include <sstream>
 
+#include <Poco/DateTime.h>
+#include <Poco/LocalDateTime.h>
+
+#include <M1Random.h>
+#include <M1UID.h>
+
 namespace Twia
 {
-    
     enum class STATUS : uint8_t
     {
         UNDEFINED = 0,

@@ -1,6 +1,6 @@
 #include "global.h"
 
-#include <Poco/DateTime.h>
+
 
 namespace Twia
 {
@@ -122,29 +122,37 @@ namespace Twia
     public:
 
         Task() = default;
-        Task(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, Time startTime, Duration duration);
+        Task(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, Poco::DateTime startTime, Poco::Timespan duration);
         ~Task() = default;
 
-        Status Initialize(PRIORITY pPrio, const std::string& pName,  const std::string& pDesc, Time startTime, Duration duration);
+        Status Initialize(PRIORITY pPrio, const std::string& pName,  const std::string& pDesc, Poco::DateTime startTime, Poco::Timespan duration);
         
         bool HasStarted();
 
+        M1::M1UID UID();
         std::string Name();
         std::string Description();
         PRIORITY Priority();
         Poco::DateTime StartTime();
+        Poco::LocalDateTime StartTimeLocal();
+
         Poco::Timespan Duration_();
 
     private:
 
         bool isInitialized;
 
+        M1::M1UID uid;
         std::string name;
         std::string description;
         PRIORITY priority;
         Poco::DateTime startTime;
         Poco::Timespan duration;
     };
+    inline M1::M1UID Task::UID()
+    {
+        return uid;
+    }
     inline std::string Task::Name()
     {
         return name;
@@ -160,6 +168,10 @@ namespace Twia
     inline Poco::DateTime Task::StartTime()
     {
         return startTime;
+    }
+    inline Poco::LocalDateTime Task::StartTimeLocal()
+    {
+        return Poco::LocalDateTime(startTime);
     }
     inline Poco::Timespan Task::Duration_()
     {
