@@ -13,6 +13,12 @@ namespace Twia
             ss << hour() << ":" << minute() << " " << day() << "/" << month() << "/" << year();
             return ss.str();
         }
+        std::string DayString()
+        {
+            std::stringstream ss;
+            ss << day() << "/" << month() << "/" << year();
+            return ss.str();
+        }
     };
 
     class LocalDateTime : public Poco::LocalDateTime
@@ -71,9 +77,9 @@ namespace Twia
 
         //Do
         Task() = default;
-        Task(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, DateTime startTime, Poco::Timespan duration);
+        Task(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, DateTime startTime, Poco::Timespan duration, bool isSerialized = false);
         ~Task() = default;
-        Status Initialize(PRIORITY pPrio, const std::string& pName,  const std::string& pDesc, DateTime startTime, Poco::Timespan duration);
+        Status Initialize(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, DateTime startTime, Poco::Timespan duration, bool isSerialized = false);
         
         void ExtendTime(Poco::Timespan timeToExtend);
         void Start();
@@ -93,18 +99,20 @@ namespace Twia
         SCORE CompletedScore();
 
     private:
-
-        bool isInitialized;
-
-        M1::M1UID uid;
-        std::string name;
-        std::string description;
-        PRIORITY priority;
         DateTime startTime;
         Poco::Timespan duration;
-        bool completed;
+
+        std::string name;
+        std::string description;
+
+        M1::M1UID uid;
+        PRIORITY priority;
         SCORE completedScore;
+
         uint16_t durationExtended;
+
+        bool isSerialized;
+        bool completed;
         bool startedOnTime;
     };
     inline M1::M1UID Task::UID()
@@ -141,7 +149,7 @@ namespace Twia
         {
             return completedScore;
         }
-        std::cerr << "Completed score retrieval is invalid" << std::endl;
+        globalLogger.Log("Task", M1::LOG_ERROR, "Completed score retrieval is invalid");
         return SCORE::SCORE_0;
     }
 }   

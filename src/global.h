@@ -5,17 +5,22 @@
 #include <cstdlib>
 #include <sstream>
 #include <fstream>
+#include <filesystem>
 
 #include <Poco/DateTime.h>
 #include <Poco/LocalDateTime.h>
 
 #include "pugixml.hpp"
 
+#include <M1Logger.h>
 #include <M1Random.h>
 #include <M1UID.h>
 
 namespace Twia
 {
+
+    extern M1::Logger globalLogger;
+
     enum class STATUS : uint8_t
     {
         UNDEFINED = 0,

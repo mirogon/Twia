@@ -2,25 +2,23 @@
 
 namespace Twia
 {
-    Task::Task(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, DateTime pStartTime, Poco::Timespan duration)
+    Task::Task(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, DateTime pStartTime, Poco::Timespan pDuration, bool pIsSerialized)
     {
-        completed = false;
-        completedScore = SCORE::SCORE_1;
-        durationExtended = 0;
-        startedOnTime = false;
-
-        Status s = Initialize(pPrio, pName, pDesc, pStartTime, duration);
+        Status s = Initialize(pPrio, pName, pDesc, pStartTime, pDuration, pIsSerialized);
         if ( s != STATUS::OK)
         {
             throw std::invalid_argument(s.description);
         }
     }
 
-    Status Task::Initialize(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, DateTime pStartTime, Poco::Timespan pDuration)
+    Status Task::Initialize(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, DateTime pStartTime, Poco::Timespan pDuration, bool pIsSerialized)
     {
-        isInitialized = true;
-
+        isSerialized = pIsSerialized;
         name = pName;
+        completed = false;
+        completedScore = SCORE::SCORE_1;
+        durationExtended = 0;
+        startedOnTime = false;
 
         description = pDesc;
         priority = pPrio;

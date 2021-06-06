@@ -2,17 +2,15 @@
 
 namespace Twia
 {
-
-    
-
     class Twia
     {
     public:
 
         void AddTask(const Task& task);
-
-        std::vector<Task> GetTasks();
         void PrintTasks();
+
+        std::vector<Task> Tasks();
+        DateTime StartDay();
 
     private:
         DateTime startDay;
@@ -20,9 +18,13 @@ namespace Twia
         SCORE twiaScore;
     };
 
-
-    inline std::vector<Task> Twia::GetTasks()
+    
+    inline std::vector<Task> Twia::Tasks()
     {
         return tasks;
+    }
+    inline DateTime Twia::StartDay()
+    {
+        return startDay;
     }
 }
