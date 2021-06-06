@@ -2,8 +2,13 @@
 
 namespace Twia
 {
-    Task::Task(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, Poco::DateTime pStartTime, Poco::Timespan duration)
+    Task::Task(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, DateTime pStartTime, Poco::Timespan duration)
     {
+        completed = false;
+        completedScore = SCORE::SCORE_1;
+        durationExtended = 0;
+        startedOnTime = false;
+
         Status s = Initialize(pPrio, pName, pDesc, pStartTime, duration);
         if ( s != STATUS::OK)
         {
@@ -11,7 +16,7 @@ namespace Twia
         }
     }
 
-    Status Task::Initialize(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, Poco::DateTime pStartTime, Poco::Timespan pDuration)
+    Status Task::Initialize(PRIORITY pPrio, const std::string& pName, const std::string& pDesc, DateTime pStartTime, Poco::Timespan pDuration)
     {
         isInitialized = true;
 
@@ -25,6 +30,63 @@ namespace Twia
 
         return Status::OK("");
     }
+    void Task::ExtendTime(Poco::Timespan timeToExtend)
+    {
+        static bool firstTime = true;
+        static Poco::Timespan originalDuration;
+        if (firstTime)
+        {
+            originalDuration = duration;
+            firstTime = false;
+        }
+
+        durationExtended += (timeToExtend.minutes() / duration.minutes() * 100);
+        duration += timeToExtend;
+    }
+    void Task::Start()
+    {
+        startedOnTime = true;
+
+        Poco::Timestamp now;
+        Poco::DateTime nowTime(now);
+
+        if ( nowTime > (startTime + Poco::Timespan(300, 0)) );
+        {
+            startedOnTime = false;
+        }
+    }
+    void Task::Complete(COMPLETED_STATUS pStatus)
+    {
+        int calculatedCompletedScore = (int)SCORE::SCORE_1;
+        completed = true;
+
+        switch (pStatus)
+        {
+        case COMPLETED_STATUS::CS_FAILURE: calculatedCompletedScore = (int)SCORE::SCORE_1; break;
+        case COMPLETED_STATUS::CS_GOOD: calculatedCompletedScore = (int)SCORE::SCORE_9; break;
+        case COMPLETED_STATUS::CS_MEH: calculatedCompletedScore = (int)SCORE::SCORE_7; break;
+        }
+
+        if (!startedOnTime)
+        {
+            calculatedCompletedScore -= 1;
+        }
+
+        int durationExtendedPunishment = durationExtended / 25;
+        if (durationExtendedPunishment > 3)
+        {
+            durationExtendedPunishment = 3;
+        }
+        calculatedCompletedScore -= durationExtendedPunishment;
+
+        if (calculatedCompletedScore < (int)SCORE::SCORE_0)
+        {
+            calculatedCompletedScore = (int)SCORE::SCORE_0;
+        }
+
+        completedScore = (SCORE)calculatedCompletedScore;
+    }
+   
     bool Task::HasStarted()
     {
         //Get current time
@@ -36,5 +98,9 @@ namespace Twia
             return true;
         }
         return false;
+    }
+    bool Task::IsCompleted()
+    {
+        return completed;
     }
 }

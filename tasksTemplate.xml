@@ -1,0 +1,20 @@
+<Twias>
+	<Twia>
+		<StartDay>6/6/2021</StartDay>
+		<Tasks>
+			<Task>
+				<UID>FDJISFDHDJLF7890324</UID>
+				<StartTime>
+					<Day>6/6/2021</Day>
+					<Hour>12</Hour>
+					<Minute>55</Minute>
+				</StartTime>
+				<Duration>55</Duration> //in minutes
+				<Priority>5</Priority>
+				<Name>Learn Piano Song</Name>
+				<Description>Blablabla</Description>
+				<CompletedScore>-1</CompletedScore> //-1 not completed | 0-9 score
+			</Task>
+		</Tasks>
+	</Twia>
+</Twias>

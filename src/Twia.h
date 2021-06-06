@@ -2,7 +2,10 @@
 
 namespace Twia
 {
-    class TaskManager
+
+    
+
+    class Twia
     {
     public:
 
@@ -12,11 +15,13 @@ namespace Twia
         void PrintTasks();
 
     private:
+        DateTime startDay;
         std::vector<Task> tasks;
+        SCORE twiaScore;
     };
 
 
-    inline std::vector<Task> TaskManager::GetTasks()
+    inline std::vector<Task> Twia::GetTasks()
     {
         return tasks;
     }

@@ -1,7 +1,6 @@
-#include "TaskManager.h"
+#include "Twia.h"
 
-
-using namespace Twia;
+//using namespace Twia;
 
 /*Twia (Time while/whilst im awake)- Twia task list that is stored permanently(xml), tasks have a description, priority, start time, duration | Every twia has a score
 * TODO: 
@@ -14,11 +13,10 @@ using namespace Twia;
 int main()
 {   
     Poco::Timestamp now;
-    Duration d(2, 50);
-    Task test1;
-    test1.Initialize(PRIORITY::PRIO_10, "Wash Bowl", "Wash bowl until it is clean!", Time::FromDateTime(Poco::DateTime(now)), d);
-
-    TaskManager tm;
+    Twia::Task test1;
+    test1.Initialize(Twia::PRIORITY::PRIO_10, "Wash Bowl", "Wash bowl until it is clean!", Twia::DateTime(now), Poco::Timespan(3600, 0));
+    
+    Twia::Twia tm;
     tm.AddTask(test1);
     tm.PrintTasks();
 
