@@ -23,7 +23,7 @@ namespace Twia
         {
             doc.append_child("Twias");
         }
-        doc.save_file("tasks.xml");
+        
 
         for (auto it = twias.begin(); it != twias.end(); ++it)
         {
@@ -36,7 +36,7 @@ namespace Twia
 
 
             std::vector<Task> tasks = it->Tasks();
-            for (auto itTasks = tasks.begin(); itTasks != tasks.end(); ++it)
+            for (auto itTasks = tasks.begin(); itTasks != tasks.end(); ++itTasks)
             {
                 pugi::xml_node taskNode = tasksNode.append_child("Task");
 
@@ -51,10 +51,33 @@ namespace Twia
                 pugi::xml_node startTimeMinuteNode = startTimeNode.append_child("Minute");
                 startTimeMinuteNode.text().set(itTasks->StartTime().minute());
 
+                pugi::xml_node durationNode = taskNode.append_child("Duration");
+                durationNode.text().set(itTasks->Duration().totalMinutes());
+
+                pugi::xml_node priorityNode = taskNode.append_child("Priority");
+                priorityNode.text().set((int)itTasks->Priority());
+
+                pugi::xml_node nameNode = taskNode.append_child("Name");
+                nameNode.text().set(itTasks->Name().c_str());
+
+                pugi::xml_node descNode = taskNode.append_child("Description");
+                descNode.text().set(itTasks->Description().c_str());
+
+                int completed;
+                pugi::xml_node completedScoreNode = taskNode.append_child("CompletedScore");
+                if (itTasks->IsCompleted())
+                {
+                    completed = (int)itTasks->CompletedScore();
+                }
+                else
+                {
+                    completed = -1;
+                }
+                completedScoreNode.text().set(completed);
 
             }
         }
-
+        doc.save_file("tasks.xml");
         return Status::OK();
     }
 }

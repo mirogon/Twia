@@ -1,11 +1,17 @@
 <Twias>
 	<Twia>
-		<StartDay>6/6/2021</StartDay>
+		<StartDay>
+			<Year>2021</Year>
+			<Month>6</Month>
+			<Day>6</Day>
+		</StartDay>
 		<Tasks>
 			<Task>
 				<UID>FDJISFDHDJLF7890324</UID>
 				<StartTime>
-					<Day>6/6/2021</Day>
+					<Year>2021</Year>
+					<Month>6</Month>
+					<Day>6</Day>
 					<Hour>12</Hour>
 					<Minute>55</Minute>
 				</StartTime>

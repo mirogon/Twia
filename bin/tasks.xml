@@ -1,2 +1,21 @@
 <?xml version="1.0"?>
-<Twias />
+<Twias>
+	<Twia>
+		<StartDay>6/6/2021</StartDay>
+		<Tasks>
+			<Task>
+				<UID>070E010E09080D0604070F090408080B</UID>
+				<StartTime>
+					<Day>6/6/2021</Day>
+					<Hour>12</Hour>
+					<Minute>57</Minute>
+				</StartTime>
+				<Duration>60</Duration>
+				<Priority>10</Priority>
+				<Name>Wash Bowl</Name>
+				<Description>Wash bowl until it is clean!</Description>
+				<CompletedScore>-1</CompletedScore>
+			</Task>
+		</Tasks>
+	</Twia>
+</Twias>

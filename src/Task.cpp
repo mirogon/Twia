@@ -61,8 +61,9 @@ namespace Twia
         switch (pStatus)
         {
         case COMPLETED_STATUS::CS_FAILURE: calculatedCompletedScore = (int)SCORE::SCORE_1; break;
+        case COMPLETED_STATUS::CS_BAD: calculatedCompletedScore = (int)SCORE::SCORE_3; break;
+        case COMPLETED_STATUS::CS_OK: calculatedCompletedScore = (int)SCORE::SCORE_6; break;
         case COMPLETED_STATUS::CS_GOOD: calculatedCompletedScore = (int)SCORE::SCORE_9; break;
-        case COMPLETED_STATUS::CS_MEH: calculatedCompletedScore = (int)SCORE::SCORE_7; break;
         }
 
         if (!startedOnTime)

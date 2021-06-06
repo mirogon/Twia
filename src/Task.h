@@ -52,8 +52,9 @@ namespace Twia
     enum class COMPLETED_STATUS : uint8_t
     {
         CS_FAILURE = 0,
-        CS_MEH = 1,
-        CS_GOOD = 2
+        CS_BAD = 1,
+        CS_OK = 2,
+        CS_GOOD = 3
     };
 
     enum class SCORE : short
